@@ -12,7 +12,16 @@ class FavoriteListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGreen
-        // Do any additional setup after loading the view.
+        PersistanceManager.retrieveFavorites { [weak self] result in
+            guard let self else { return }
+            switch result {
+                
+            case .success(let favorites):
+                print(favorites)
+            case .failure(let error):
+                self.presentGFAlertOnMainThread(title: "Something is wrong", message: error.rawValue, buttonTitle: "Ok")
+            }
+        }
     }
     
 
