@@ -23,3 +23,4 @@ extension String {
         return date.convertToMonthYearFormat()
     }
 }
+// both funcs are obsolete now, I just keep them for future reference
