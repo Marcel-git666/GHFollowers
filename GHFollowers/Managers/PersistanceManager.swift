@@ -13,8 +13,7 @@ enum PersistenceActionType {
 
 enum PersistanceManager {
     
-    static private let defaults = UserDefaults.standard
-    
+    static private let defaults = UserDefaults.standard    
     enum Keys {
         static let favorites = "favorites"
     }

@@ -72,6 +72,7 @@ extension FavoriteListVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteCell.reuseID) as! FavoriteCell
         let favorite = favorites[indexPath.row]
         cell.set(favorite: favorite)
+        cell.addCustomDisclosureIndicator(with: .systemGreen) 
         return cell
     }
     

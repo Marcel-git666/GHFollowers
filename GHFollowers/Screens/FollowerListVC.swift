@@ -64,19 +64,22 @@ class FollowerListVC: GFDataLoadingVC {
             self.dismissLoadingView()
             switch result {
             case .success(let user):
-                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-                PersistanceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
-                    guard let self = self else { return }
-                    guard let error = error else {
-                        self.presentGFAlertOnMainThread(title: "Success", message: "You have successfully favorited a user \(user.login)🎆", buttonTitle: "Hooray")
-                        return
-                    }
-                    self.presentGFAlertOnMainThread(title: "Failure", message: error.rawValue, buttonTitle: "Ok")
-                }
-                
+                addUserToFavorites(user: user)
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
             }
+        }
+    }
+    
+    func addUserToFavorites(user: User) {
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        PersistanceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+            guard let self = self else { return }
+            guard let error = error else {
+                self.presentGFAlertOnMainThread(title: "Success", message: "You have successfully favorited a user \(user.login)🎆", buttonTitle: "Hooray")
+                return
+            }
+            self.presentGFAlertOnMainThread(title: "Failure", message: error.rawValue, buttonTitle: "Ok")
         }
     }
     
@@ -105,22 +108,27 @@ class FollowerListVC: GFDataLoadingVC {
             self.dismissLoadingView()
             switch result {
             case .success(let followers): 
-                if followers.count < 100 {
-                    hasMoreFollowers = false
-                }
-                self.followers += followers
-                if self.followers.isEmpty {
-                    let message = "This user has no followers. Follow them 😀"
-                    DispatchQueue.main.async {
-                        self.showEmptyStateView(with: message, in: self.view)
-                        return
-                    }
-                }
-                self.updateData(on: followers)
+                updateUI(with: followers)
             case .failure(let error): self.presentGFAlertOnMainThread(title: "Something bad happened", message: error.rawValue, buttonTitle: "Ok")
             }
             self.isLoadingMoreFollowers = false
         }
+    }
+    
+    func updateUI(with followers: [Follower]) {
+        if followers.count < 100 {
+            hasMoreFollowers = false
+        }
+        self.followers += followers
+        if self.followers.isEmpty {
+            let message = "This user has no followers. Follow them 😀"
+            DispatchQueue.main.async {
+                self.showEmptyStateView(with: message, in: self.view)
+                return
+            }
+        }
+        self.updateData(on: followers)
+        
     }
     
     func configureDataSource() {
@@ -185,6 +193,7 @@ extension FollowerListVC: UserInfoVCDelegate {
         self.username = username
         title = username
         page = 1
+        
         followers.removeAll()
         filteredFollowers.removeAll()
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
