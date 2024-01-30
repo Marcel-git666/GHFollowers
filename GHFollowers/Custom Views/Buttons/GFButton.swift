@@ -40,3 +40,8 @@ class GFButton: UIButton {
         configuration?.imagePlacement = .leading
     }
 }
+
+#Preview() {
+    let button = GFButton(color: .purple, title: "Nice title", systemImageName: "calendar")
+    return button
+}

@@ -94,3 +94,8 @@ class GFAlertVC: UIViewController {
         
     }
 }
+
+#Preview {
+    let alertVC = GFAlertVC(title: "Alert title", message: "Nice and long and explaining message", buttonTitle: "Roger")
+    return alertVC
+}
