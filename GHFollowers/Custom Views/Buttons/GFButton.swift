@@ -42,6 +42,5 @@ class GFButton: UIButton {
 }
 
 #Preview() {
-    let button = GFButton(color: .purple, title: "Nice title", systemImageName: "calendar")
-    return button
+    GFButton(color: .purple, title: "Nice title", systemImageName: "calendar")
 }

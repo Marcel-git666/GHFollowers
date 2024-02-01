@@ -92,3 +92,7 @@ extension SearchVC: UITextFieldDelegate {
         return true
     }
 }
+
+#Preview {
+    SearchVC()
+}

@@ -47,6 +47,22 @@ class FollowerListVC: GFDataLoadingVC {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
+    
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
+        if followers.isEmpty && !isLoadingMoreFollowers {
+            var config = UIContentUnavailableConfiguration.empty()
+            config.image = .init(systemName: "person.slash")
+            if let username = username {
+                config.secondaryText = "User \(username) has no followers."
+            }
+            config.text = "No followers"
+            contentUnavailableConfiguration = config
+        } else if isSearching && filteredFollowers.isEmpty {
+            contentUnavailableConfiguration = UIContentUnavailableConfiguration.search()
+        } else {
+            contentUnavailableConfiguration = nil
+        }
+    }
 
     func configureViewController() {
         view.backgroundColor = .systemBackground
@@ -146,12 +162,13 @@ class FollowerListVC: GFDataLoadingVC {
         self.followers += followers
         if self.followers.isEmpty {
             let message = "This user has no followers. Follow them 😀"
-            DispatchQueue.main.async {
-                self.showEmptyStateView(with: message, in: self.view)
-                return
-            }
+//            DispatchQueue.main.async {
+//                self.showEmptyStateView(with: message, in: self.view)
+//                return
+//            }
         }
         self.updateData(on: followers)
+        setNeedsUpdateContentUnavailableConfiguration()
         
     }
     
@@ -209,6 +226,7 @@ extension FollowerListVC: UISearchResultsUpdating {
         isSearching = true
         filteredFollowers = followers.filter {$0.login.lowercased().contains(filter.lowercased())}
         updateData(on: filteredFollowers)
+        setNeedsUpdateContentUnavailableConfiguration()
     }
 }
 
@@ -220,6 +238,7 @@ extension FollowerListVC: UserInfoVCDelegate {
         
         followers.removeAll()
         filteredFollowers.removeAll()
+        navigationItem.searchController?.searchBar.text = ""
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
         getFollowers(username: username, page: page)
     }

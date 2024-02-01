@@ -29,6 +29,19 @@ class FavoriteListVC: GFDataLoadingVC {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
+    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
+        if favorites.isEmpty {
+            var config = UIContentUnavailableConfiguration.empty()
+            config.image = .init(systemName: "star")
+//            config.image = Images.emptyStateLogo
+            config.secondaryText = "No favorites?\nAdd one on the follower screen."
+            config.text = "No favorites"
+            contentUnavailableConfiguration = config
+        } else {
+            contentUnavailableConfiguration = nil
+        }
+    }
+    
     func configureTableView() {
         view.addSubview(tableView)
         
@@ -56,14 +69,15 @@ class FavoriteListVC: GFDataLoadingVC {
     }
     
     private func updateUI(with favorites: [Follower]) {
-        if favorites.isEmpty {
-            showEmptyStateView(with: "No favorites?\nAdd one on the follower screen.", in: self.view)
-        } else {
-            self.favorites = favorites
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.view.bringSubviewToFront(self.tableView)
-            }
+//        if favorites.isEmpty {
+//            showEmptyStateView(with: "No favorites?\nAdd one on the follower screen.", in: self.view)
+//        } else {
+        self.favorites = favorites
+        setNeedsUpdateContentUnavailableConfiguration()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.view.bringSubviewToFront(self.tableView)
+//            }
         }
     }
 
@@ -96,9 +110,10 @@ extension FavoriteListVC: UITableViewDelegate, UITableViewDataSource {
             guard let error else {
                 favorites.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)
-                if favorites.isEmpty {
-                    showEmptyStateView(with: "No favorites?\nAdd one on the follower screen.", in: self.view)
-                }
+                setNeedsUpdateContentUnavailableConfiguration()
+//                if favorites.isEmpty {
+//                    showEmptyStateView(with: "No favorites?\nAdd one on the follower screen.", in: self.view)
+//                }
                 return
             }
             DispatchQueue.main.async {
