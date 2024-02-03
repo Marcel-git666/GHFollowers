@@ -12,7 +12,7 @@ class GFTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UITabBar.appearance().tintColor = .systemGreen
-        viewControllers = [createSearchNC(), createFavoritesNC()]
+        viewControllers = [createSearchNC(), createFavoritesNC(), createLoginNC()]
     }
     
     func createSearchNC() -> UINavigationController {
@@ -29,7 +29,10 @@ class GFTabBarController: UITabBarController {
         return UINavigationController(rootViewController: favoritesListVC)
     }
     
-//    func createLoginNC() -> UINavigationController {
-//        
-//    }
+    func createLoginNC() -> UINavigationController {
+        let loginVC = LoginVC()
+        loginVC.title = "Login"
+        loginVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
+        return UINavigationController(rootViewController: loginVC)
+    }
 }
