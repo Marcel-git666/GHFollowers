@@ -9,6 +9,7 @@ import UIKit
 
 class LoginVC: UIViewController {
     
+    let titleLabel = GFTitleLabel(textAlignment: .center, fontSize: 24)
     let userNameTextField = GFTextField()
     let secretTextField = GFTextField()
     let loginButton = GFButton(color: .systemGreen, title: "Log In", systemImageName: "key.horizontal")
@@ -19,16 +20,28 @@ class LoginVC: UIViewController {
     let padding: CGFloat = 20
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubviews(userNameTextField, secretTextField, loginButton)
+        view.addSubviews(titleLabel, userNameTextField, secretTextField, loginButton)
+        configureTitleLabel()
         configureUserNameTextField()
         configureSecretTextField()
         configureLoginButton()
     }
     
+    func configureTitleLabel() {
+        titleLabel.text = "Enter your credentials for GitHub"
+        titleLabel.textColor = .label
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+            titleLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
     func configureUserNameTextField() {
         userNameTextField.placeholder = "Enter your login to GitHub"
         NSLayoutConstraint.activate([
-            userNameTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            userNameTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 50),
             userNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             userNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             userNameTextField.heightAnchor.constraint(equalToConstant: 50)
