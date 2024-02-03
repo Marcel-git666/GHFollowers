@@ -32,7 +32,7 @@ class GFTabBarController: UITabBarController {
     func createLoginNC() -> UINavigationController {
         let loginVC = LoginVC()
         loginVC.title = "Login"
-        loginVC.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 2)
+        loginVC.tabBarItem = UITabBarItem(title: "Login", image: SFSymbols.login, tag: 2)
         return UINavigationController(rootViewController: loginVC)
     }
 }

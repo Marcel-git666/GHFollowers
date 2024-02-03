@@ -20,6 +20,7 @@ class LoginVC: UIViewController {
     let padding: CGFloat = 20
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         view.addSubviews(titleLabel, userNameTextField, secretTextField, loginButton)
         configureTitleLabel()
         configureUserNameTextField()
