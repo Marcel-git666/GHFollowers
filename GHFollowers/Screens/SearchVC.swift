@@ -12,15 +12,27 @@ class SearchVC: UIViewController {
     let logoImageView = UIImageView()
     let userNameTextField = GFTextField()
     let callToActionButton = GFButton(color: .systemGreen, title: "Get Followers", systemImageName: "person.3")
+    let loginLabel = GFTitleLabel(textAlignment: .center, fontSize: 20)
     
     var isUsernameEntered: Bool { !userNameTextField.text!.isEmpty }
+    var isLoggedIn: Bool
+    
+    init(isLoggedIn: Bool) {
+        self.isLoggedIn = isLoggedIn
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubviews(logoImageView, userNameTextField, callToActionButton)
+        view.addSubviews(logoImageView, userNameTextField, callToActionButton, loginLabel)
         configureLogoImageView()
         configureTextField()
+        configureLoginLabel()
         configureCallToActionButton()
         createDismissKeyboardTapGesture()
     }
@@ -73,6 +85,16 @@ class SearchVC: UIViewController {
             userNameTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
+    func configureLoginLabel() {
+        loginLabel.text = isLoggedIn ? "Success" : "Not logged in"
+        NSLayoutConstraint.activate([
+            loginLabel.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 50),
+            loginLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            loginLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            loginLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
 
     func configureCallToActionButton() {
         callToActionButton.addTarget(self, action: #selector(pushFollowerListVC), for: .touchUpInside)
@@ -94,5 +116,5 @@ extension SearchVC: UITextFieldDelegate {
 }
 
 #Preview {
-    SearchVC()
+    SearchVC(isLoggedIn: true)
 }

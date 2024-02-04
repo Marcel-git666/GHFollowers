@@ -16,7 +16,7 @@ class GFTabBarController: UITabBarController {
     }
     
     func createSearchNC() -> UINavigationController {
-        let searchVC = SearchVC()
+        let searchVC = SearchVC(isLoggedIn: false)
         searchVC.title = "Search"
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         return UINavigationController(rootViewController: searchVC)
