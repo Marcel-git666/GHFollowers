@@ -80,7 +80,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        
+				<string>        //here should be api call to log in
 </string>
 				<key>leading</key>
 				<string>        secretTextField.resignFirstResponder()

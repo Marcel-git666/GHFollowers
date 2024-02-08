@@ -52,7 +52,7 @@ class LoginVC: UIViewController {
         userNameTextField.resignFirstResponder()
         secretTextField.resignFirstResponder()
         
-        
+        //here should be api call to log in
         isLoggedIn = true
         let searchVC = SearchVC(isLoggedIn: isLoggedIn)
         

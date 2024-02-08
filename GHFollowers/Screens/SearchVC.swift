@@ -87,7 +87,7 @@ class SearchVC: UIViewController {
     }
     
     func configureLoginLabel() {
-        loginLabel.text = isLoggedIn ? "Success" : "Not logged in"
+        loginLabel.text = isLoggedIn ? "Logged in" : "Not logged in"
         NSLayoutConstraint.activate([
             loginLabel.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 50),
             loginLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
