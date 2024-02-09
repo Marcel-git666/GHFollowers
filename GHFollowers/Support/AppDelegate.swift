@@ -25,7 +25,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        if url.host == GitHub.redirectURI {
+            print("Inside appDelegate")
+          }
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+              let code = components.queryItems?.first(where: { $0.name == "code" })?.value else {
+            return false
+        }
+        
+        // Now you have the authorization code, proceed with exchanging it for an access token
+        exchangeAuthorizationCodeForAccessToken(code: code)
+        
+        return true
+    }
+    
+    func exchangeAuthorizationCodeForAccessToken(code: String) {
+        // Make a POST request to GitHub's token endpoint to exchange the authorization code for an access token
+        // Include your client ID, client secret, authorization code, and redirect URI in the request body
+        // Parse the response to retrieve the access token
+        // Store the access token securely (e.g., in Keychain) and handle any errors
+    }
+    
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.

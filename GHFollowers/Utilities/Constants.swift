@@ -24,6 +24,19 @@ enum Images {
     static let followImage = UIImage(resource: .follow)
 }
 
+enum GitHub {
+    static var clientID: String {
+        guard let path = Bundle.main.path(forResource: "config", ofType: "plist"),
+              let configDict = NSDictionary(contentsOfFile: path) as? [String: Any],
+              let clientID = configDict["GitHubClientID"] as? String else {
+            fatalError("GitHub client ID not found in configuration file.")
+        }
+        return clientID
+    }
+    
+    static let redirectURI = "cz.marcel.ghfollowers://auth"
+}
+
 enum ScreenSize {
     static let width        = UIScreen.main.bounds.size.width
     static let height       = UIScreen.main.bounds.size.height

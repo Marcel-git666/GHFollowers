@@ -58,13 +58,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>55</string>
+					<string>30</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>54</string>
+					<string>29</string>
 					<key>Timestamp</key>
-					<string>728775447.305791</string>
+					<string>729108380.704615</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -80,16 +80,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        //here should be api call to log in
+				<string>    
 </string>
 				<key>leading</key>
-				<string>        secretTextField.resignFirstResponder()
-        
+				<string>    }
+    
 </string>
 				<key>trailing</key>
-				<string>        isLoggedIn = true
-        let searchVC = SearchVC(isLoggedIn: isLoggedIn)
-        
+				<string>    
+    func configureTitleLabel() {
+        titleLabel.text = "Log into your GitHub"
 </string>
 			</dict>
 			<key>title</key>
