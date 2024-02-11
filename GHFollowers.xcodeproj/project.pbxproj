@@ -59,6 +59,7 @@
 		1FF92CFF2B78FE500079B4C6 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92CFE2B78FE500079B4C6 /* HTTPClient.swift */; };
 		1FF92D012B78FE630079B4C6 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D002B78FE630079B4C6 /* HttpRequest.swift */; };
 		1FF92D032B78FF020079B4C6 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D022B78FF020079B4C6 /* Encodable.swift */; };
+		1FF92D052B7901AA0079B4C6 /* RemoteOAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 		1FF92CFE2B78FE500079B4C6 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		1FF92D002B78FE630079B4C6 /* HttpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
 		1FF92D022B78FF020079B4C6 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
+		1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteOAuthClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 				1FF92CFD2B78FE2F0079B4C6 /* Networking */,
 				1F35FB622B767D8200C1BD18 /* LocalOauthClient.swift */,
 				1F35FB672B76A9AF00C1BD18 /* DeepLinkHandler.swift */,
+				1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -572,6 +575,7 @@
 				1FCB92FC2B60260D004A927B /* GFRepoItemVC.swift in Sources */,
 				1FF92D032B78FF020079B4C6 /* Encodable.swift in Sources */,
 				1FDC3C812B703537000B8027 /* GFSecretTextField.swift in Sources */,
+				1FF92D052B7901AA0079B4C6 /* RemoteOAuthClient.swift in Sources */,
 				1FCB92F02B5AE9C9004A927B /* UserInfoVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

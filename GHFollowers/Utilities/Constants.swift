@@ -34,6 +34,15 @@ enum GitHub {
         return clientID
     }
     
+    static var clientSecret: String {
+        guard let path = Bundle.main.path(forResource: "config", ofType: "plist"),
+              let configDict = NSDictionary(contentsOfFile: path) as? [String: Any],
+              let clientSecret = configDict["GitHubClientSecret"] as? String else {
+            fatalError("GitHub client secret not found in configuration file.")
+        }
+        return clientSecret
+    }
+    
     static let redirectURI = "cz.marcel.ghfollowers://auth"
 }
 
