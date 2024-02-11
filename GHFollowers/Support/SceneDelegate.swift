@@ -9,6 +9,7 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    let dependencyContainer = AppDependencyContainer()
     var window: UIWindow?
 
 
@@ -16,10 +17,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = GFTabBarController()
+        window?.rootViewController = dependencyContainer.makeMainViewController()
         window?.makeKeyAndVisible()
         
         configureNavigationBar()
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let urlContext = URLContexts.first {
+            let url = urlContext.url
+            if let deepLink = DeepLink(url: url) {
+                dependencyContainer.deepLinkHandler.handleDeepLinkIfPossible(deepLink: deepLink)
+            }
+        }
     }
     
     func configureNavigationBar() {

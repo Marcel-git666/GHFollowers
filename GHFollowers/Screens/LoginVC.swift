@@ -10,14 +10,22 @@ import SafariServices
 
 class LoginVC: UIViewController {
     
-    let titleLabel = GFTitleLabel(textAlignment: .center, fontSize: 24)
+    let oAuthService: OAuthService
     
+    let titleLabel = GFTitleLabel(textAlignment: .center, fontSize: 24)
     let loginButton = GFButton(color: .systemGreen, title: "Log In", systemImageName: "key.horizontal")
     
-    
-    var isLoggedIn: Bool = false
-    
     let padding: CGFloat = 20
+    
+    
+    init(oAuthService: OAuthService) {
+        self.oAuthService = oAuthService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +33,7 @@ class LoginVC: UIViewController {
         view.addSubviews(titleLabel, loginButton)
         configureTitleLabel()
         configureLoginButton()
+        oAuthService.onAuthenticationResult = { [weak self] in self?.onAuthenticationResult(result: $0) }
     }
     
     
@@ -55,22 +64,37 @@ class LoginVC: UIViewController {
     }
     
     func initiateOAuthFlow() {
-        let authURLString = "https://github.com/login/oauth/authorize?client_id=\(GitHub.clientID)&scope=user%20repo&redirect_uri=\(GitHub.redirectURI)"
-        guard let authURL = URL(string: authURLString) else { return }
+        guard let url = oAuthService.getAuthPageUrl() else { return }
         
-        let safariVC = SFSafariViewController(url: authURL)
-        safariVC.delegate = self
-        present(safariVC, animated: true)
-    }
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.modalPresentationStyle = .fullScreen
+        present(safariVC, animated: true, completion: nil)
+    }  
     
-}
+    func onAuthenticationResult(result: Result<TokenBag, Error>) {
+        DispatchQueue.main.async {
+            self.presentedViewController?.dismiss(animated: true) {
+                switch result {
+                case .success(let tokenBag):
+                    let alert = UIAlertController(title: "Token",
+                                                  message: tokenBag.accessToken,
+                                                  preferredStyle: .alert)
 
-extension LoginVC: SFSafariViewControllerDelegate {
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        print("SafariView did finished.")
+                    alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                case .failure:
+                    let alert = UIAlertController(title: "Something went wrong :(",
+                                                  message: "Authentication error",
+                                                  preferredStyle: .alert)
+
+                    alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    LoginVC()
+    LoginVC(oAuthService: OAuthService(oauthClient: LocalOauthClient()))
 }

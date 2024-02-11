@@ -7,127 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A005CA9C-0A26-462D-BDE8-15923746B998"
+            uuid = "7DAB9356-6CEF-4C86-99D3-D1108457940E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "GHFollowers/Support/AppDelegate.swift"
+            filePath = "GHFollowers/Dependencies/AppDependencyContainer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "application(_:open:options:)"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "makeMainViewController()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A005CA9C-0A26-462D-BDE8-15923746B998 - 647388093abbf64b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "GHFollowers.AppDelegate.application(_: __C.UIApplication, open: Foundation.URL, options: Swift.Dictionary&lt;__C.UIApplicationOpenURLOptionsKey, Any&gt;) -&gt; Swift.Bool"
-                  moduleName = "GHFollowers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcel/Library/Mobile%20Documents/com~apple~CloudDocs/Programming/GHFollowers/GHFollowers/Support/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36"
-                  offsetFromSymbolStart = "1024">
-               </Location>
-               <Location
-                  uuid = "A005CA9C-0A26-462D-BDE8-15923746B998 - 647388093abbf689"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "GHFollowers.AppDelegate.application(_: __C.UIApplication, open: Foundation.URL, options: Swift.Dictionary&lt;__C.UIApplicationOpenURLOptionsKey, Any&gt;) -&gt; Swift.Bool"
-                  moduleName = "GHFollowers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcel/Library/Mobile%20Documents/com~apple~CloudDocs/Programming/GHFollowers/GHFollowers/Support/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "1342">
-               </Location>
-               <Location
-                  uuid = "A005CA9C-0A26-462D-BDE8-15923746B998 - 11ff1083a08dddf3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Foundation.URLQueryItem) -&gt; Swift.Bool in GHFollowers.AppDelegate.application(_: __C.UIApplication, open: Foundation.URL, options: Swift.Dictionary&lt;__C.UIApplicationOpenURLOptionsKey, Any&gt;) -&gt; Swift.Bool"
-                  moduleName = "GHFollowers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcel/Library/Mobile%20Documents/com~apple~CloudDocs/Programming/GHFollowers/GHFollowers/Support/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "84">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C79B5696-E20D-4888-B30D-0A2B27E82CD9"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GHFollowers/Support/AppDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "application(_:open:options:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C79B5696-E20D-4888-B30D-0A2B27E82CD9 - 44e40fb5e5b652b6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 2 of GHFollowers.AppDelegate.application(_: __C.UIApplication, open: Foundation.URL, options: Swift.Dictionary&lt;__C.UIApplicationOpenURLOptionsKey, Any&gt;) -&gt; Swift.Bool"
-                  moduleName = "GHFollowers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcel/Library/Mobile%20Documents/com~apple~CloudDocs/Programming/GHFollowers/GHFollowers/Support/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "29"
-                  endingLineNumber = "29"
-                  offsetFromSymbolStart = "8">
-               </Location>
-               <Location
-                  uuid = "C79B5696-E20D-4888-B30D-0A2B27E82CD9 - 647388093abbf735"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "GHFollowers.AppDelegate.application(_: __C.UIApplication, open: Foundation.URL, options: Swift.Dictionary&lt;__C.UIApplicationOpenURLOptionsKey, Any&gt;) -&gt; Swift.Bool"
-                  moduleName = "GHFollowers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcel/Library/Mobile%20Documents/com~apple~CloudDocs/Programming/GHFollowers/GHFollowers/Support/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30"
-                  offsetFromSymbolStart = "356">
-               </Location>
-               <Location
-                  uuid = "C79B5696-E20D-4888-B30D-0A2B27E82CD9 - 647388093abbf735"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "GHFollowers.AppDelegate.application(_: __C.UIApplication, open: Foundation.URL, options: Swift.Dictionary&lt;__C.UIApplicationOpenURLOptionsKey, Any&gt;) -&gt; Swift.Bool"
-                  moduleName = "GHFollowers"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/marcel/Library/Mobile%20Documents/com~apple~CloudDocs/Programming/GHFollowers/GHFollowers/Support/AppDelegate.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30"
-                  offsetFromSymbolStart = "429">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
