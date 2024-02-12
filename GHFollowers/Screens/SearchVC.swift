@@ -9,16 +9,17 @@ import UIKit
 
 class SearchVC: UIViewController {
 
+    let tokenRepository: TokenRepository
     let logoImageView = UIImageView()
     let userNameTextField = GFTextField()
     let callToActionButton = GFButton(color: .systemGreen, title: "Get Followers", systemImageName: "person.3")
     let loginLabel = GFTitleLabel(textAlignment: .center, fontSize: 20)
     
     var isUsernameEntered: Bool { !userNameTextField.text!.isEmpty }
-    var isLoggedIn: Bool
+    var isLoggedIn: Bool = false
     
-    init(isLoggedIn: Bool) {
-        self.isLoggedIn = isLoggedIn
+    init(tokenRepository: TokenRepository) {
+        self.tokenRepository = tokenRepository
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,7 +33,6 @@ class SearchVC: UIViewController {
         view.addSubviews(logoImageView, userNameTextField, callToActionButton, loginLabel)
         configureLogoImageView()
         configureTextField()
-        configureLoginLabel()
         configureCallToActionButton()
         createDismissKeyboardTapGesture()
     }
@@ -40,6 +40,7 @@ class SearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         userNameTextField.text = ""
+        configureLoginLabel()
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -57,7 +58,7 @@ class SearchVC: UIViewController {
         
         userNameTextField.resignFirstResponder()
         
-        let followerListVC = FollowerListVC(username: userNameTextField.text!)
+        let followerListVC = FollowerListVC(username: userNameTextField.text!, tokenRepository: tokenRepository)
         
         navigationController?.pushViewController(followerListVC, animated: true)
     }
@@ -87,6 +88,11 @@ class SearchVC: UIViewController {
     }
     
     func configureLoginLabel() {
+        if let _ = tokenRepository.getToken() {
+            isLoggedIn = true
+        } else {
+            isLoggedIn = false
+        }
         loginLabel.text = isLoggedIn ? "Logged in" : "Not logged in"
         NSLayoutConstraint.activate([
             loginLabel.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 50),
@@ -116,5 +122,5 @@ extension SearchVC: UITextFieldDelegate {
 }
 
 #Preview {
-    SearchVC(isLoggedIn: true)
+    SearchVC(tokenRepository: InMemoryTokenRepository())
 }

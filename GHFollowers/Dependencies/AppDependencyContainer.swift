@@ -15,11 +15,12 @@ class AppDependencyContainer {
         let oAuthConfig = OAuthConfig(authorizationUrl: URL(string: "https://github.com/login/oauth/authorize")!,
                                       tokenUrl: URL(string: "https://github.com/login/oauth/access_token")!,
                                       clientId: GitHub.clientID,
-                                      clientSecret: "yourClientSecret",
+                                      clientSecret: GitHub.clientSecret,
                                       redirectUri: redirectUri,
                                       scopes: ["repo", "user"])
         let oAuthClient = RemoteOAuthClient(config: oAuthConfig, httpClient: HTTPClient())
-        let oAuthService = OAuthService(oauthClient: LocalOauthClient())
+        let tokenRepository = InMemoryTokenRepository()
+        let oAuthService = OAuthService(oauthClient: oAuthClient, tokenRepository: tokenRepository)
         let deepLinkCallback: (DeepLink) -> Void = { deepLink in
             if case .oAuth(let url) = deepLink {
                 oAuthService.exchangeCodeForToken(url: url)
@@ -27,7 +28,7 @@ class AppDependencyContainer {
         }
         deepLinkHandler.addCallback(deepLinkCallback, forDeepLink: DeepLink(url: redirectUri)!)
         
-        let tabbarController = GFTabBarController(oAuthService: oAuthService)
+        let tabbarController = GFTabBarController(oAuthService: oAuthService, tokenRepository: tokenRepository)
         let navigationController = UINavigationController(rootViewController: tabbarController)
         return navigationController
     }

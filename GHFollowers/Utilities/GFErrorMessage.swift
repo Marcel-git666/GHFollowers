@@ -7,11 +7,34 @@
 
 import Foundation
 
-enum GFError: String, Error {
-    case invalidUsername = "This username created invalid request, please try again."
-    case unableToComplete = "Unable to complete your request. Please check your internet connection"
-    case invalidResponse = "Invalid response from the server, please try again."
-    case invalidData = "The data received from the server was invalid. Please try again later."
-    case unableToFavorite = "There was an error favoriting the user. Please trz again."
-    case alreadInFavorites = "You have already favorited this user. You must love them."
+enum GFError: Error {
+    case invalidUsername
+    case unableToComplete
+    case invalidResponse
+    case invalidData
+    case unableToFavorite
+    case alreadyInFavorites
+    case invalidURL
+    case failedToFollowUser(username: String, statusCode: Int)
+
+    var rawValue: String {
+        switch self {
+        case .invalidUsername:
+            return "This username created invalid request, please try again."
+        case .unableToComplete:
+            return "Unable to complete your request. Please check your internet connection."
+        case .invalidResponse:
+            return "Invalid response from the server, please try again."
+        case .invalidData:
+            return "The data received from the server was invalid. Please try again later."
+        case .unableToFavorite:
+            return "There was an error favoriting the user. Please try again."
+        case .alreadyInFavorites:
+            return "You have already favorited this user. You must love them."
+        case .invalidURL:
+            return "My URL is invalid, sorry."
+        case .failedToFollowUser(let username, let statusCode):
+            return "I have failed to follow \(username). Do you already follow him/her? Status code: \(statusCode)"
+        }
+    }
 }

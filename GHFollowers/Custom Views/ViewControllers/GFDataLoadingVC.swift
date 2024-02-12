@@ -35,8 +35,13 @@ class GFDataLoadingVC: UIViewController {
     
     func dismissLoadingView() {
         DispatchQueue.main.async {
-            self.containerView.removeFromSuperview()
-            self.containerView = nil
+            if let containerView = self.containerView {
+                containerView.removeFromSuperview()
+                self.containerView = nil
+            } else {
+                // Log a message or handle the case where containerView is unexpectedly nil
+                print("Warning: containerView is unexpectedly nil when dismissing loading view.")
+            }
         }
     }
     

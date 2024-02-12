@@ -14,8 +14,8 @@ class LocalOauthClient: OAuthClient {
     }
     
     func getAuthPageUrl(state: String) -> URL? {
-//        let urlString = "https://github.com/login/oauth/authorize?client_id=\(GitHub.clientID)&redirect_uri=\(GitHub.redirectURI)&s&scopes=repo,user&state=\(state)"
-        let urlString = "https://codesandbox.io/s/affectionate-wind-wp72f"
+        let urlString = "https://github.com/login/oauth/authorize?client_id=\(GitHub.clientID)&redirect_uri=\(GitHub.redirectURI)&s&scopes=repo,user&state=\(state)"
+//        let urlString = "https://codesandbox.io/s/affectionate-wind-wp72f"
         return URL(string: urlString)!
     }
 }

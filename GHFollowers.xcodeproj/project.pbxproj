@@ -60,6 +60,8 @@
 		1FF92D012B78FE630079B4C6 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D002B78FE630079B4C6 /* HttpRequest.swift */; };
 		1FF92D032B78FF020079B4C6 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D022B78FF020079B4C6 /* Encodable.swift */; };
 		1FF92D052B7901AA0079B4C6 /* RemoteOAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */; };
+		1FF92D072B7907A10079B4C6 /* TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D062B7907A10079B4C6 /* TokenRepository.swift */; };
+		1FF92D092B7907DC0079B4C6 /* InMemoryTokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D082B7907DC0079B4C6 /* InMemoryTokenRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +131,8 @@
 		1FF92D002B78FE630079B4C6 /* HttpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
 		1FF92D022B78FF020079B4C6 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
 		1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteOAuthClient.swift; sourceTree = "<group>"; };
+		1FF92D062B7907A10079B4C6 /* TokenRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRepository.swift; sourceTree = "<group>"; };
+		1FF92D082B7907DC0079B4C6 /* InMemoryTokenRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryTokenRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				1F35FB5F2B767D3500C1BD18 /* OAuthService.swift */,
+				1FF92D062B7907A10079B4C6 /* TokenRepository.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -164,6 +169,9 @@
 				1F35FB622B767D8200C1BD18 /* LocalOauthClient.swift */,
 				1F35FB672B76A9AF00C1BD18 /* DeepLinkHandler.swift */,
 				1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */,
+				1FF92D082B7907DC0079B4C6 /* InMemoryTokenRepository.swift */,
+				1FECD44C2B51D08C0050E74B /* NetworkManager.swift */,
+				1FCB93042B605CD8004A927B /* PersistanceManager.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -226,7 +234,6 @@
 				1F35FB612B767D5D00C1BD18 /* Infrastructure */,
 				1F35FB5E2B767D2100C1BD18 /* Domain */,
 				1FECD44E2B52C48B0050E74B /* Utilities */,
-				1FECD44B2B51D0700050E74B /* Managers */,
 				1F85BE192B51BB200049C1B9 /* Model */,
 				1F85BE172B5191280049C1B9 /* Extensions */,
 				1F85BE162B51905D0049C1B9 /* Custom Views */,
@@ -382,15 +389,6 @@
 			path = FollowerCell;
 			sourceTree = "<group>";
 		};
-		1FECD44B2B51D0700050E74B /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				1FECD44C2B51D08C0050E74B /* NetworkManager.swift */,
-				1FCB93042B605CD8004A927B /* PersistanceManager.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
 		1FECD44E2B52C48B0050E74B /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -544,6 +542,7 @@
 				1F85BDED2B4C7AE70049C1B9 /* AppDelegate.swift in Sources */,
 				1FF92D012B78FE630079B4C6 /* HttpRequest.swift in Sources */,
 				1FCB93122B656BC1004A927B /* UITableView+Ext.swift in Sources */,
+				1FF92D092B7907DC0079B4C6 /* InMemoryTokenRepository.swift in Sources */,
 				1F35FB602B767D3500C1BD18 /* OAuthService.swift in Sources */,
 				1F35FB662B76A3A800C1BD18 /* AppDependencyContainer.swift in Sources */,
 				1FDC3C7A2B659A73000B8027 /* UITableViewCell+Ext.swift in Sources */,
@@ -553,6 +552,7 @@
 				1FECD4532B52D0E80050E74B /* FollowerCell.swift in Sources */,
 				1FCB930A2B61A726004A927B /* GFTabBarController.swift in Sources */,
 				1F35FB682B76A9AF00C1BD18 /* DeepLinkHandler.swift in Sources */,
+				1FF92D072B7907A10079B4C6 /* TokenRepository.swift in Sources */,
 				1FCB93052B605CD8004A927B /* PersistanceManager.swift in Sources */,
 				1FCB930C2B63F792004A927B /* GFAlertContainerView.swift in Sources */,
 				1F85BE122B4F43C00049C1B9 /* GFAlertVC.swift in Sources */,

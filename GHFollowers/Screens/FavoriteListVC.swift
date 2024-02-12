@@ -11,7 +11,17 @@ class FavoriteListVC: GFDataLoadingVC {
     
     let tableView = UITableView()
     var favorites: [Follower] = []
-
+    let tokenRepository: TokenRepository
+    
+    init(tokenRepository: TokenRepository) {
+        self.tokenRepository = tokenRepository
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
@@ -98,7 +108,7 @@ extension FavoriteListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let favorite = favorites[indexPath.row]
-        let destVC = FollowerListVC(username: favorite.login)
+        let destVC = FollowerListVC(username: favorite.login, tokenRepository: tokenRepository)
         navigationController?.pushViewController(destVC, animated: true)
     }
     

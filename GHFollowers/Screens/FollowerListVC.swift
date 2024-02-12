@@ -24,11 +24,15 @@ class FollowerListVC: GFDataLoadingVC {
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
     
-    init(username: String) {
+    let tokenRepository: TokenRepository
+    
+    init(username: String, tokenRepository: TokenRepository) {
+        self.tokenRepository = tokenRepository
         super.init(nibName: nil, bundle: nil)
         self.username = username
         title = username
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -76,6 +80,26 @@ class FollowerListVC: GFDataLoadingVC {
     
     @objc func followButtonTapped() {
         print("Lets follow!!!")
+        guard let tokenBag = tokenRepository.getToken() else {
+            presentGFAlert(title: "Error", message: "You are not logged in. Please log in first.", buttonTitle: "OK")
+            return
+        }
+        
+        showLoadingView()
+        Task {
+            do {
+                // Call followUser method from NetworkManager with the retrieved token
+                try await NetworkManager.shared.followUser(username: username, token: tokenBag.accessToken)
+                presentGFAlert(title: "Success", message: "You have successfully followed \(username ?? "Unknown user")", buttonTitle: "OK")
+            } catch {
+                if let gfError = error as? GFError {
+                    presentGFAlert(title: "Error", message: gfError.rawValue, buttonTitle: "OK")
+                } else {
+                    presentGFAlert(title: "Error", message: "Failed to follow \(username ?? "Unknown user")", buttonTitle: "OK")
+                }
+            }
+            dismissLoadingView()
+        }
     }
     
     @objc func addButtonTapped() {
@@ -150,6 +174,7 @@ class FollowerListVC: GFDataLoadingVC {
                 isLoadingMoreFollowers = false
             }
         }
+//        For personal use - this is how you can handle errors not using async await
 //        NetworkManager.shared.getFollower(for: username, page: page) { [weak self] result in
 //            guard let self else { return }
 //            self.dismissLoadingView()
@@ -168,7 +193,8 @@ class FollowerListVC: GFDataLoadingVC {
         }
         self.followers += followers
         if self.followers.isEmpty {
-            let message = "This user has no followers. Follow them 😀"
+//            Custom emptyState will require to remove setNeedsUpdateContentUnavailableConfiguration()
+//            let message = "This user has no followers. Follow them 😀"
 //            DispatchQueue.main.async {
 //                self.showEmptyStateView(with: message, in: self.view)
 //                return

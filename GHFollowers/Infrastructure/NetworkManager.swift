@@ -95,6 +95,37 @@ class NetworkManager {
         }
     }
     
+    func followUser(username: String, token: String) async throws {
+        let apiUrl = "https://api.github.com/user/following/\(username)"
+        
+        guard let url = URL(string: apiUrl) else {
+            throw GFError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.addValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.addValue("2022-11-28", forHTTPHeaderField: "X-GitHub-Api-Version")
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw GFError.invalidResponse
+            }
+            
+            if (200...299).contains(httpResponse.statusCode) {
+                print("Successfully followed user \(username) with status code: \(httpResponse.statusCode)")
+            } else {
+                throw GFError.failedToFollowUser(username: username, statusCode: httpResponse.statusCode)
+            }
+        } catch {
+            throw error
+        }
+    }
+
+    
     func downloadImage(from urlString: String) async -> UIImage? {
         let cacheKey = NSString(string: urlString)
         if let image = cache.object(forKey: cacheKey) { return image }
@@ -109,4 +140,6 @@ class NetworkManager {
             return nil
         }
     }
+    
+    
 }
