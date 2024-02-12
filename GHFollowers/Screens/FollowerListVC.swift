@@ -46,7 +46,7 @@ class FollowerListVC: GFDataLoadingVC {
         getFollowers(username: username, page: page)
         configureDataSource()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -71,11 +71,9 @@ class FollowerListVC: GFDataLoadingVC {
     func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
-
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
         let followButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(followButtonTapped))
         navigationItem.rightBarButtonItems = [addButton, followButton]
-        
     }
     
     @objc func followButtonTapped() {
@@ -84,7 +82,6 @@ class FollowerListVC: GFDataLoadingVC {
             presentGFAlert(title: "Error", message: "You are not logged in. Please log in first.", buttonTitle: "OK")
             return
         }
-        
         showLoadingView()
         Task {
             do {
@@ -101,9 +98,8 @@ class FollowerListVC: GFDataLoadingVC {
             dismissLoadingView()
         }
     }
-    
+
     @objc func addButtonTapped() {
-        
         showLoadingView()
         Task {
             do {
@@ -120,7 +116,7 @@ class FollowerListVC: GFDataLoadingVC {
             }
         }
     }
-    
+
     func addUserToFavorites(user: User) {
         let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
         PersistanceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
@@ -138,7 +134,7 @@ class FollowerListVC: GFDataLoadingVC {
             }
         }
     }
-    
+
     func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
         view.addSubview(collectionView)
@@ -146,7 +142,7 @@ class FollowerListVC: GFDataLoadingVC {
         collectionView.backgroundColor = .systemBackground
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
     }
-    
+
     func configureSearchController() {
         let searchController = UISearchController()
         searchController.searchResultsUpdater = self
@@ -154,7 +150,7 @@ class FollowerListVC: GFDataLoadingVC {
         searchController.searchBar.placeholder = "Search for a username"
         navigationItem.searchController = searchController
     }
-    
+
     func getFollowers(username: String, page: Int) {
         showLoadingView()
         isLoadingMoreFollowers = true
@@ -174,53 +170,30 @@ class FollowerListVC: GFDataLoadingVC {
                 isLoadingMoreFollowers = false
             }
         }
-//        For personal use - this is how you can handle errors not using async await
-//        NetworkManager.shared.getFollower(for: username, page: page) { [weak self] result in
-//            guard let self else { return }
-//            self.dismissLoadingView()
-//            switch result {
-//            case .success(let followers): 
-//                updateUI(with: followers)
-//            case .failure(let error): self.presentGFAlertOnMainThread(title: "Something bad happened", message: error.rawValue, buttonTitle: "Ok")
-//            }
-//            self.isLoadingMoreFollowers = false
-//        }
     }
-    
+
     func updateUI(with followers: [Follower]) {
-        if followers.count < 100 {
-            hasMoreFollowers = false
-        }
+        if followers.count < 100 { hasMoreFollowers = false }
         self.followers += followers
-        if self.followers.isEmpty {
-//            Custom emptyState will require to remove setNeedsUpdateContentUnavailableConfiguration()
-//            let message = "This user has no followers. Follow them 😀"
-//            DispatchQueue.main.async {
-//                self.showEmptyStateView(with: message, in: self.view)
-//                return
-//            }
-        }
         self.updateData(on: followers)
         setNeedsUpdateContentUnavailableConfiguration()
-        
     }
-    
-    func configureDataSource() {
+
+    func configureDataSource() { // swiftlint:disable force_cast
         dataSource = UICollectionViewDiffableDataSource<Section, Follower>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowerCell.reuseID, for: indexPath) as! FollowerCell
-            cell.set(follower: follower)
+            cell.set(follower: follower) // swiftlint:enable force_cast
             return cell
         })
     }
-    
-    func updateData(on followers:[Follower]) {
+
+    func updateData(on followers: [Follower]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
         snapshot.appendSections([.main])
         snapshot.appendItems(followers)
         DispatchQueue.main.async {
             self.dataSource.apply(snapshot, animatingDifferences: true)
         }
-        
     }
 }
 
@@ -229,14 +202,13 @@ extension FollowerListVC: UICollectionViewDelegate {
         let offsetY = scrollView.contentOffset.y
         let contentHeiht = scrollView.contentSize.height
         let height = scrollView.frame.size.height
-        
         if offsetY > contentHeiht - height {
             guard hasMoreFollowers, !isLoadingMoreFollowers else { return }
             page += 1
             getFollowers(username: username, page: page)
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let activeArray = isSearching ? filteredFollowers : followers
         let follower = activeArray[indexPath.item]
@@ -268,7 +240,6 @@ extension FollowerListVC: UserInfoVCDelegate {
         self.username = username
         title = username
         page = 1
-        
         followers.removeAll()
         filteredFollowers.removeAll()
         navigationItem.searchController?.searchBar.text = ""

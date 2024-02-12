@@ -97,15 +97,15 @@ extension FavoriteListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favorites.count
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // swiftlint:disable force_cast
         let cell = tableView.dequeueReusableCell(withIdentifier: FavoriteCell.reuseID) as! FavoriteCell
-        let favorite = favorites[indexPath.row]
+        let favorite = favorites[indexPath.row] // swiftlint:enable force_cast
         cell.set(favorite: favorite)
         cell.addCustomDisclosureIndicator(with: .systemGreen) 
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let favorite = favorites[indexPath.row]
         let destVC = FollowerListVC(username: favorite.login, tokenRepository: tokenRepository)
