@@ -14,7 +14,7 @@ protocol OAuthClient {
                               completion: @escaping (Result<TokenBag, Error>) -> Void)
 }
 
-struct TokenBag {
+struct TokenBag: Codable {
     let accessToken: String
 }
 

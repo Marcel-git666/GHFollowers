@@ -40,7 +40,7 @@
 		1FCB92FE2B602898004A927B /* GFFollowerItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB92FD2B602898004A927B /* GFFollowerItemVC.swift */; };
 		1FCB93012B602EAE004A927B /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB93002B602EAE004A927B /* Date+Ext.swift */; };
 		1FCB93032B602EFC004A927B /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB93022B602EFC004A927B /* String+Ext.swift */; };
-		1FCB93052B605CD8004A927B /* PersistanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB93042B605CD8004A927B /* PersistanceManager.swift */; };
+		1FCB93052B605CD8004A927B /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB93042B605CD8004A927B /* PersistenceManager.swift */; };
 		1FCB93072B61798E004A927B /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB93062B61798E004A927B /* FavoriteCell.swift */; };
 		1FCB930A2B61A726004A927B /* GFTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB93092B61A726004A927B /* GFTabBarController.swift */; };
 		1FCB930C2B63F792004A927B /* GFAlertContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB930B2B63F792004A927B /* GFAlertContainerView.swift */; };
@@ -62,6 +62,8 @@
 		1FF92D052B7901AA0079B4C6 /* RemoteOAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */; };
 		1FF92D072B7907A10079B4C6 /* TokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D062B7907A10079B4C6 /* TokenRepository.swift */; };
 		1FF92D092B7907DC0079B4C6 /* InMemoryTokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D082B7907DC0079B4C6 /* InMemoryTokenRepository.swift */; };
+		1FF92D0C2B7B84630079B4C6 /* CoreDataTokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D0B2B7B84630079B4C6 /* CoreDataTokenRepository.swift */; };
+		1FF92D0E2B7BBA600079B4C6 /* CoreDataTokenRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF92D0D2B7BBA600079B4C6 /* CoreDataTokenRepositoryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,7 +113,7 @@
 		1FCB92FD2B602898004A927B /* GFFollowerItemVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFFollowerItemVC.swift; sourceTree = "<group>"; };
 		1FCB93002B602EAE004A927B /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		1FCB93022B602EFC004A927B /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
-		1FCB93042B605CD8004A927B /* PersistanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceManager.swift; sourceTree = "<group>"; };
+		1FCB93042B605CD8004A927B /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		1FCB93062B61798E004A927B /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
 		1FCB93092B61A726004A927B /* GFTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTabBarController.swift; sourceTree = "<group>"; };
 		1FCB930B2B63F792004A927B /* GFAlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAlertContainerView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,8 @@
 		1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteOAuthClient.swift; sourceTree = "<group>"; };
 		1FF92D062B7907A10079B4C6 /* TokenRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRepository.swift; sourceTree = "<group>"; };
 		1FF92D082B7907DC0079B4C6 /* InMemoryTokenRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryTokenRepository.swift; sourceTree = "<group>"; };
+		1FF92D0B2B7B84630079B4C6 /* CoreDataTokenRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTokenRepository.swift; sourceTree = "<group>"; };
+		1FF92D0D2B7BBA600079B4C6 /* CoreDataTokenRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTokenRepositoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,8 +174,9 @@
 				1F35FB672B76A9AF00C1BD18 /* DeepLinkHandler.swift */,
 				1FF92D042B7901AA0079B4C6 /* RemoteOAuthClient.swift */,
 				1FF92D082B7907DC0079B4C6 /* InMemoryTokenRepository.swift */,
+				1FF92D0B2B7B84630079B4C6 /* CoreDataTokenRepository.swift */,
 				1FECD44C2B51D08C0050E74B /* NetworkManager.swift */,
-				1FCB93042B605CD8004A927B /* PersistanceManager.swift */,
+				1FCB93042B605CD8004A927B /* PersistenceManager.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -197,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				1F35FB7A2B76ACD100C1BD18 /* DeepLinkTest.swift */,
+				1FF92D0D2B7BBA600079B4C6 /* CoreDataTokenRepositoryTests.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -541,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F35FB722B76AC6F00C1BD18 /* GHFollowersTests.swift in Sources */,
+				1FF92D0E2B7BBA600079B4C6 /* CoreDataTokenRepositoryTests.swift in Sources */,
 				1F35FB7B2B76ACD100C1BD18 /* DeepLinkTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -574,8 +581,9 @@
 				1FECD4532B52D0E80050E74B /* FollowerCell.swift in Sources */,
 				1FCB930A2B61A726004A927B /* GFTabBarController.swift in Sources */,
 				1F35FB682B76A9AF00C1BD18 /* DeepLinkHandler.swift in Sources */,
+				1FF92D0C2B7B84630079B4C6 /* CoreDataTokenRepository.swift in Sources */,
 				1FF92D072B7907A10079B4C6 /* TokenRepository.swift in Sources */,
-				1FCB93052B605CD8004A927B /* PersistanceManager.swift in Sources */,
+				1FCB93052B605CD8004A927B /* PersistenceManager.swift in Sources */,
 				1FCB930C2B63F792004A927B /* GFAlertContainerView.swift in Sources */,
 				1F85BE122B4F43C00049C1B9 /* GFAlertVC.swift in Sources */,
 				1FCB92F22B5EAD09004A927B /* GFUserInfoHeaderVC.swift in Sources */,

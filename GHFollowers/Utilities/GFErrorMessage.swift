@@ -16,6 +16,8 @@ enum GFError: Error {
     case alreadyInFavorites
     case invalidURL
     case failedToFollowUser(username: String, statusCode: Int)
+    case unableToRetrieveToken
+    case unableToSetToken
 
     var rawValue: String {
         switch self {
@@ -35,6 +37,10 @@ enum GFError: Error {
             return "My URL is invalid, sorry."
         case .failedToFollowUser(let username, let statusCode):
             return "I have failed to follow \(username). Do you already follow him/her? Status code: \(statusCode)"
+        case .unableToRetrieveToken:
+            return "I cannot find your token."
+        case .unableToSetToken:
+            return "I have problem saving your token."
         }
     }
 }

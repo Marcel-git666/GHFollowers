@@ -11,12 +11,13 @@ enum PersistenceActionType {
     case add, remove
 }
 
-enum PersistanceManager {
+enum PersistenceManager {
 
     static private let defaults = UserDefaults.standard
 
     enum Keys {
         static let favorites = "favorites"
+        static let token = "token"
     }
 
     static func updateWith(favorite: Follower, actionType: PersistenceActionType, completed: @escaping (GFError?) -> Void) {
@@ -68,5 +69,19 @@ enum PersistanceManager {
         } catch {
             return .unableToFavorite
         }
+    }
+
+    static func removeToken() throws {
+        defaults.removeObject(forKey: Keys.token)
+    }
+
+    static func saveToken(_ tokenData: Data) throws {
+        defaults.set(tokenData, forKey: Keys.token)
+        print("Token \(tokenData) is saved.")
+    }
+
+    static func retrieveToken() -> Data? {
+        print("Trying to retrieve your token.")
+        return defaults.data(forKey: Keys.token)
     }
 }

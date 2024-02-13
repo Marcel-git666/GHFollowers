@@ -19,7 +19,7 @@ class AppDependencyContainer {
                                       redirectUri: redirectUri,
                                       scopes: ["repo", "user"])
         let oAuthClient = RemoteOAuthClient(config: oAuthConfig, httpClient: HTTPClient())
-        let tokenRepository = InMemoryTokenRepository()
+        let tokenRepository = CoreDataTokenRepository()
         let oAuthService = OAuthService(oauthClient: oAuthClient, tokenRepository: tokenRepository)
         let deepLinkCallback: (DeepLink) -> Void = { deepLink in
             if case .oAuth(let url) = deepLink {
