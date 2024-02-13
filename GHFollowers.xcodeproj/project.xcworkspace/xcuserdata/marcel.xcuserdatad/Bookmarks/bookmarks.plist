@@ -36,7 +36,7 @@
 				<key>focused</key>
 				<string>if</string>
 				<key>leading</key>
-				<string>    
+				<string>
     func set(follower: Follower) {
         </string>
 				<key>trailing</key>

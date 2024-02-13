@@ -14,19 +14,19 @@ class SearchVC: UIViewController {
     let userNameTextField = GFTextField()
     let callToActionButton = GFButton(color: .systemGreen, title: "Get Followers", systemImageName: "person.3")
     let loginLabel = GFTitleLabel(textAlignment: .center, fontSize: 20)
-    
+
     var isUsernameEntered: Bool { !userNameTextField.text!.isEmpty }
     var isLoggedIn: Bool = false
-    
+
     init(tokenRepository: TokenRepository) {
         self.tokenRepository = tokenRepository
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -36,39 +36,40 @@ class SearchVC: UIViewController {
         configureCallToActionButton()
         createDismissKeyboardTapGesture()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         userNameTextField.text = ""
         configureLoginLabel()
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
-    
+
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
-    
+
     @objc func pushFollowerListVC() {
-        
         guard isUsernameEntered else {
-            presentGFAlert(title: "Empty Username", message: "Please enter a username, we need to know who to look for 🤷‍♂️", buttonTitle: "OK")
+            presentGFAlert(title: "Empty Username",
+                           message: "Please enter a username, we need to know who to look for 🤷‍♂️",
+                           buttonTitle: "OK")
             return
         }
-        
+
         userNameTextField.resignFirstResponder()
-        
+
         let followerListVC = FollowerListVC(username: userNameTextField.text!, tokenRepository: tokenRepository)
-        
+
         navigationController?.pushViewController(followerListVC, animated: true)
     }
 
     func configureLogoImageView() {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.image = Images.ghLogo
-        
+
         let topContraintConstant: CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? 20 : 80
-        
+
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topContraintConstant),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -76,7 +77,7 @@ class SearchVC: UIViewController {
             logoImageView.widthAnchor.constraint(equalToConstant: 200)
         ])
     }
-    
+
     func configureTextField() {
         userNameTextField.delegate = self
         NSLayoutConstraint.activate([
@@ -86,9 +87,9 @@ class SearchVC: UIViewController {
             userNameTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-    
+
     func configureLoginLabel() {
-        if let _ = tokenRepository.getToken() {
+        if tokenRepository.getToken() != nil {
             isLoggedIn = true
         } else {
             isLoggedIn = false
@@ -112,7 +113,6 @@ class SearchVC: UIViewController {
         ])
     }
 }
-
 
 extension SearchVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

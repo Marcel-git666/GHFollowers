@@ -9,7 +9,7 @@ import UIKit
 
 class AppDependencyContainer {
     let deepLinkHandler = DeepLinkHandler()
-    
+
     func makeMainViewController() -> UIViewController {
         let redirectUri = URL(string: GitHub.redirectURI)!
         let oAuthConfig = OAuthConfig(authorizationUrl: URL(string: "https://github.com/login/oauth/authorize")!,
@@ -27,7 +27,6 @@ class AppDependencyContainer {
             }
         }
         deepLinkHandler.addCallback(deepLinkCallback, forDeepLink: DeepLink(url: redirectUri)!)
-        
         let tabbarController = GFTabBarController(oAuthService: oAuthService, tokenRepository: tokenRepository)
         let navigationController = UINavigationController(rootViewController: tabbarController)
         return navigationController

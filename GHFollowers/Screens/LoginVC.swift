@@ -9,27 +9,26 @@ import UIKit
 import SafariServices
 
 class LoginVC: UIViewController {
-    
+
     let oAuthService: OAuthService
     let tokenRepository: TokenRepository
-    
+
     let titleLabel = GFTitleLabel(textAlignment: .center, fontSize: 24)
     let loginButton = GFButton(color: .systemGreen, title: "Log In", systemImageName: "key.horizontal")
     let logoutButton = GFButton(color: .systemRed, title: "Log Out", systemImageName: "key.slash")
     let loginInfo = GFBodyLabel(textAlignment: .left)
     let padding: CGFloat = 20
-    
-    
+
     init(oAuthService: OAuthService, tokenRepository: TokenRepository) {
         self.oAuthService = oAuthService
         self.tokenRepository = tokenRepository
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -40,7 +39,7 @@ class LoginVC: UIViewController {
         configureLoginInfo()
         oAuthService.onAuthenticationResult = { [weak self] in self?.onAuthenticationResult(result: $0) }
     }
-    
+
     func configureTitleLabel() {
         titleLabel.text = "Log into your GitHub"
         titleLabel.textColor = .label
@@ -51,7 +50,7 @@ class LoginVC: UIViewController {
             titleLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-    
+
     func configureLoginButton() {
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         NSLayoutConstraint.activate([
@@ -61,7 +60,7 @@ class LoginVC: UIViewController {
             loginButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-    
+
     func configureLogoutButton() {
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         NSLayoutConstraint.activate([
@@ -71,14 +70,13 @@ class LoginVC: UIViewController {
             logoutButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-    
+
     func configureLoginInfo() {
             if let tokenBag = tokenRepository.getToken(), !tokenBag.accessToken.isEmpty {
                 self.loginInfo.text = "User is logged in with the Access Token: \(tokenBag.accessToken)"
             } else {
                 self.loginInfo.text = "User is logged out."
             }
-                
         loginInfo.numberOfLines = 0
         loginInfo.lineBreakMode = .byWordWrapping
         NSLayoutConstraint.activate([
@@ -88,23 +86,23 @@ class LoginVC: UIViewController {
             loginInfo.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
-    
+
     @objc func logoutButtonTapped() {
         initiateLogout()
     }
-    
+
     @objc func loginButtonTapped() {
         initiateOAuthFlow()
     }
-    
+
     func initiateOAuthFlow() {
         guard let url = oAuthService.getAuthPageUrl() else { return }
-        
+
         let safariVC = SFSafariViewController(url: url)
         safariVC.modalPresentationStyle = .fullScreen
         present(safariVC, animated: true, completion: nil)
-    }  
-    
+    }
+
     func initiateLogout() {
         do {
             try tokenRepository.resetToken()
@@ -113,7 +111,7 @@ class LoginVC: UIViewController {
         }
         self.loginInfo.text = "User is logged out."
     }
-    
+
     func onAuthenticationResult(result: Result<TokenBag, Error>) {
         DispatchQueue.main.async {
             self.presentedViewController?.dismiss(animated: true) {
@@ -127,7 +125,7 @@ class LoginVC: UIViewController {
                         alert.addAction(UIAlertAction(title: "ok", style: .default, handler: nil))
                         self.present(alert, animated: true)
                     }
-                    
+
                 case .failure:
                     let alert = UIAlertController(title: "Something went wrong :(",
                                                   message: "Authentication error",
@@ -142,5 +140,8 @@ class LoginVC: UIViewController {
 }
 
 #Preview {
-    LoginVC(oAuthService: OAuthService(oauthClient: LocalOauthClient(), tokenRepository: InMemoryTokenRepository()), tokenRepository: InMemoryTokenRepository())
+    LoginVC(
+        oAuthService: OAuthService(oauthClient: LocalOauthClient(),
+        tokenRepository: InMemoryTokenRepository()),
+        tokenRepository: InMemoryTokenRepository())
 }

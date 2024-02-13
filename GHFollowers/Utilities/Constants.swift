@@ -16,7 +16,6 @@ enum SFSymbols {
     static let login = UIImage(systemName: "person.badge.key")
 }
 
-
 enum Images {
     static let ghLogo = UIImage(named: "gh-logo")
     static let placeholderImage = UIImage(named: "avatar-placeholder")
@@ -33,7 +32,7 @@ enum GitHub {
         }
         return clientID
     }
-    
+
     static var clientSecret: String {
         guard let path = Bundle.main.path(forResource: "config", ofType: "plist"),
               let configDict = NSDictionary(contentsOfFile: path) as? [String: Any],
@@ -42,7 +41,7 @@ enum GitHub {
         }
         return clientSecret
     }
-    
+
     static let redirectURI = "cz.marcel.ghfollowers://auth"
 }
 

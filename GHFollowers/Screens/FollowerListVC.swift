@@ -12,7 +12,7 @@ class FollowerListVC: GFDataLoadingVC {
     enum Section {
         case main
     }
-    
+
     var username: String!
     var followers = [Follower]()
     var filteredFollowers: [Follower] = []
@@ -20,24 +20,22 @@ class FollowerListVC: GFDataLoadingVC {
     var hasMoreFollowers: Bool = true
     var isSearching = false
     var isLoadingMoreFollowers = false
-    
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
-    
+
     let tokenRepository: TokenRepository
-    
+
     init(username: String, tokenRepository: TokenRepository) {
         self.tokenRepository = tokenRepository
         super.init(nibName: nil, bundle: nil)
         self.username = username
         title = username
     }
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
@@ -51,7 +49,7 @@ class FollowerListVC: GFDataLoadingVC {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
-    
+
     override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
         if followers.isEmpty && !isLoadingMoreFollowers {
             var config = UIContentUnavailableConfiguration.empty()
@@ -75,9 +73,8 @@ class FollowerListVC: GFDataLoadingVC {
         let followButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(followButtonTapped))
         navigationItem.rightBarButtonItems = [addButton, followButton]
     }
-    
+
     @objc func followButtonTapped() {
-        print("Lets follow!!!")
         guard let tokenBag = tokenRepository.getToken() else {
             presentGFAlert(title: "Error", message: "You are not logged in. Please log in first.", buttonTitle: "OK")
             return
@@ -85,7 +82,6 @@ class FollowerListVC: GFDataLoadingVC {
         showLoadingView()
         Task {
             do {
-                // Call followUser method from NetworkManager with the retrieved token
                 try await NetworkManager.shared.followUser(username: username, token: tokenBag.accessToken)
                 presentGFAlert(title: "Success", message: "You have successfully followed \(username ?? "Unknown user")", buttonTitle: "OK")
             } catch {
@@ -123,7 +119,8 @@ class FollowerListVC: GFDataLoadingVC {
             guard let self else { return }
             guard let error else {
                 DispatchQueue.main.async {
-                    self.presentGFAlert(title: "Success", message: "You have successfully favorited a user \(user.login)🎆", buttonTitle: "Hooray")
+                    self.presentGFAlert(title: "Success",
+                                        message: "You have successfully favorited a user \(user.login)🎆", buttonTitle: "Hooray")
                 }
                 dismissLoadingView()
                 return
@@ -180,7 +177,8 @@ class FollowerListVC: GFDataLoadingVC {
     }
 
     func configureDataSource() { // swiftlint:disable force_cast
-        dataSource = UICollectionViewDiffableDataSource<Section, Follower>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Section, Follower>(
+            collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowerCell.reuseID, for: indexPath) as! FollowerCell
             cell.set(follower: follower) // swiftlint:enable force_cast
             return cell

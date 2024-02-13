@@ -15,14 +15,14 @@ extension UIViewController {
             alertVC.modalTransitionStyle = .crossDissolve
             present(alertVC, animated: true)
     }
-    
+
     func presentDefaultEror() {
             let alertVC = GFAlertVC(title: "Something Went Wrong", message: "Generic error", buttonTitle: "Ok")
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .crossDissolve
             present(alertVC, animated: true)
     }
-    
+
     func presentSafariVC(with url: URL) {
         let safariVC = SFSafariViewController(url: url)
         safariVC.preferredControlTintColor = .systemGreen
