@@ -38,6 +38,38 @@ class NetworkManager {
         }
     }
 
+    func getLogin(token: String) async throws -> String {
+        let apiUrl = "https://api.github.com/user"
+
+        guard let url = URL(string: apiUrl) else {
+            throw GFError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.addValue("2022-11-28", forHTTPHeaderField: "X-GitHub-Api-Version")
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                throw GFError.invalidResponse
+            }
+
+            do {
+                let user = try decoder.decode(User.self, from: data)
+                return user.login
+            } catch {
+                throw GFError.invalidData
+            }
+        } catch {
+            throw GFError.unexpectedError
+        }
+    }
+
     func getUserInfo(for username: String) async throws -> User {
         let endpoint = baseURL + "\(username)"
 
@@ -83,7 +115,71 @@ class NetworkManager {
                 throw GFError.failedToFollowUser(username: username, statusCode: httpResponse.statusCode)
             }
         } catch {
-            throw error
+            throw GFError.invalidResponse
+        }
+    }
+
+    func unfollowUser(_ username: String, token: String) async throws {
+        let apiUrl = "https://api.github.com/users/\(username)/following/\(username)"
+
+        guard let url = URL(string: apiUrl) else {
+            throw GFError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.addValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.addValue("2022-11-28", forHTTPHeaderField: "X-GitHub-Api-Version")
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw GFError.invalidResponse
+            }
+
+            switch httpResponse.statusCode {
+            case 204:
+                return // Successfully unfollowed
+            case 404:
+                // Handle unexpected 404 (optional)
+                return // Assume unfollowed as 404 might indicate already unfollowed
+            default:
+                throw GFError.failedToUnfollowUser(username: username, statusCode: httpResponse.statusCode)
+            }
+        } catch {
+            throw GFError.unexpectedError
+        }
+    }
+
+    func isFollowing(_ username: String, token: String, currentUser: String) async throws -> Bool {
+        // Ensure username is not the same as current user
+        guard username != currentUser else {
+            return false // User cannot follow themselves
+        }
+
+        let apiUrl = "https://api.github.com/users/\(currentUser)/following/\(username)"
+
+        guard let url = URL(string: apiUrl) else {
+            throw GFError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.addValue("2022-11-28", forHTTPHeaderField: "X-GitHub-Api-Version")
+
+        do {
+            let (_, response) = try await URLSession.shared.data(for: request)
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw GFError.invalidResponse
+            }
+            return httpResponse.statusCode == 204 // 204 indicates following
+        } catch {
+            throw GFError.unexpectedError
         }
     }
 

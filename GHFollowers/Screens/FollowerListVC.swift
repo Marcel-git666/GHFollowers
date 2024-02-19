@@ -70,7 +70,8 @@ class FollowerListVC: GFDataLoadingVC {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-        let followButton = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(followButtonTapped))
+        let followButton = UIBarButtonItem(image: UIImage(systemName: "star"),
+                                           style: .plain, target: self, action: #selector(followButtonTapped))
         navigationItem.rightBarButtonItems = [addButton, followButton]
     }
 
