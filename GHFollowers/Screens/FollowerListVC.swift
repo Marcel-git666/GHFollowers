@@ -22,6 +22,7 @@ class FollowerListVC: GFDataLoadingVC {
     var isLoadingMoreFollowers = false
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
+    private var refreshControl: UIRefreshControl!
 
     let tokenRepository: TokenRepository
 
@@ -41,6 +42,7 @@ class FollowerListVC: GFDataLoadingVC {
         configureViewController()
         configureSearchController()
         configureCollectionView()
+        configureRefreshControl()
         getFollowers(username: username, page: page)
         configureDataSource()
     }
@@ -65,6 +67,23 @@ class FollowerListVC: GFDataLoadingVC {
             contentUnavailableConfiguration = nil
         }
     }
+    
+    func configureRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+    }
+    
+    @objc func refreshData() {
+        // Reset page and clear existing followers
+        page = 1
+        followers.removeAll()
+        filteredFollowers.removeAll()
+
+        // Fetch fresh data
+        getFollowers(username: username, page: page)
+    }
+
 
     func configureViewController() {
         view.backgroundColor = .systemBackground
@@ -83,7 +102,7 @@ class FollowerListVC: GFDataLoadingVC {
         showLoadingView()
         Task {
             do {
-                try await NetworkManager.shared.followUser(username: username, token: tokenBag.accessToken)
+                try await followUserAndUpdateFollowers(token: tokenBag.accessToken)
                 presentGFAlert(title: "Success", message: "You have successfully followed \(username ?? "Unknown user")", buttonTitle: "OK")
             } catch {
                 if let gfError = error as? GFError {
@@ -91,9 +110,15 @@ class FollowerListVC: GFDataLoadingVC {
                 } else {
                     presentGFAlert(title: "Error", message: "Failed to follow \(username ?? "Unknown user")", buttonTitle: "OK")
                 }
+                dismissLoadingView()
             }
             dismissLoadingView()
         }
+    }
+    
+    func followUserAndUpdateFollowers(token: String) async throws {
+        try await NetworkManager.shared.followUser(username: username, token: token)
+        try await updateFollowers(username: username, page: page)
     }
 
     @objc func addButtonTapped() {
@@ -156,8 +181,8 @@ class FollowerListVC: GFDataLoadingVC {
             do {
                 let followers = try await NetworkManager.shared.getFollower(for: username, page: page)
                 updateUI(with: followers)
-                dismissLoadingView()
-                isLoadingMoreFollowers = false
+                //                dismissLoadingView()
+                //                isLoadingMoreFollowers = false
             } catch {
                 if let gfError = error as? GFError {
                     presentGFAlert(title: "Something bad happened", message: gfError.rawValue, buttonTitle: "Ok")
@@ -167,6 +192,30 @@ class FollowerListVC: GFDataLoadingVC {
                 dismissLoadingView()
                 isLoadingMoreFollowers = false
             }
+            DispatchQueue.main.async {
+                self.dismissLoadingView()
+                self.isLoadingMoreFollowers = false
+                self.refreshControl.endRefreshing() // Stop refresh animation
+            }
+        }
+    }
+    
+    func updateFollowers(username: String, page: Int) async throws {
+        showLoadingView()
+        isLoadingMoreFollowers = true
+        do {
+            let followers = try await NetworkManager.shared.getFollower(for: username, page: page)
+            updateUI(with: followers)
+            dismissLoadingView()
+            isLoadingMoreFollowers = false
+        } catch {
+            if let gfError = error as? GFError {
+                presentGFAlert(title: "Something bad happened", message: gfError.rawValue, buttonTitle: "Ok")
+            } else {
+                presentDefaultEror()
+            }
+            dismissLoadingView()
+            isLoadingMoreFollowers = false
         }
     }
 
