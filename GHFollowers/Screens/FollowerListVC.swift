@@ -102,7 +102,19 @@ class FollowerListVC: GFDataLoadingVC {
         Task {
             do {
                 try await followUser(token: tokenBag.accessToken)
+                let loggedInUsername = try await NetworkManager.shared.getLogin(token: tokenBag.accessToken)
+                let newFollower = Follower(login: loggedInUsername, avatarUrl: "") // Replace with actual avatar URL retrieval
+                followers.append(newFollower)
+                updateData(on: [newFollower])
                 presentGFAlert(title: "Success", message: "You have successfully followed \(username ?? "Unknown user")", buttonTitle: "OK")
+                Task {
+                    let user = try await NetworkManager.shared.getUserInfo(for: loggedInUsername)
+                    // Update temporary follower with actual info
+                    if let index = followers.firstIndex(where: { $0.login == user.login }) {
+                        followers[index].avatarUrl = user.avatarUrl
+                    }
+                    updateData(on: followers)
+                }
             } catch {
                 if let gfError = error as? GFError {
                     presentGFAlert(title: "Error", message: gfError.rawValue, buttonTitle: "OK")

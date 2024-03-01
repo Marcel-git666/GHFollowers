@@ -90,6 +90,7 @@ class NetworkManager {
     }
 
     func followUser(username: String, token: String) async throws {
+        let startTime = CFAbsoluteTimeGetCurrent()
         let apiUrl = "https://api.github.com/user/following/\(username)"
 
         guard let url = URL(string: apiUrl) else {
@@ -111,6 +112,7 @@ class NetworkManager {
 
             if (200...299).contains(httpResponse.statusCode) {
                 print("Successfully followed user \(username) with status code: \(httpResponse.statusCode)")
+                print("Follow request for \(username) completed in \(CFAbsoluteTimeGetCurrent() - startTime) seconds")
             } else {
                 throw GFError.failedToFollowUser(username: username, statusCode: httpResponse.statusCode)
             }
@@ -153,13 +155,13 @@ class NetworkManager {
         }
     }
 
-    func isFollowing(_ username: String, token: String, currentUser: String) async throws -> Bool {
+    func isFollowing(_ targetUsername: String, token: String, currentUser: String) async throws -> Bool {
         // Ensure username is not the same as current user
-        guard username != currentUser else {
+        guard targetUsername != currentUser else {
             return false // User cannot follow themselves
         }
 
-        let apiUrl = "https://api.github.com/users/\(currentUser)/following/\(username)"
+        let apiUrl = "https://api.github.com/users/\(currentUser)/following/\(targetUsername)"
 
         guard let url = URL(string: apiUrl) else {
             throw GFError.invalidURL
