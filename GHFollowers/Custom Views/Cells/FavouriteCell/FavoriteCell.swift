@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class FavoriteCell: UITableViewCell {
 
@@ -29,8 +30,14 @@ class FavoriteCell: UITableViewCell {
     }
 
     func set(favorite: Follower) {
-        avatarImageView.downloadImage(fromURL: favorite.avatarUrl)
-        usernameLabel.text = favorite.login
+        if #available(iOS 16.0, *) {
+            contentConfiguration = UIHostingConfiguration(content: {
+                FavoriteView(favorite: favorite)
+            })
+        } else {
+            usernameLabel.text = favorite.login
+            avatarImageView.downloadImage(fromURL: favorite.avatarUrl)
+        }
     }
 
     private func configure() {
